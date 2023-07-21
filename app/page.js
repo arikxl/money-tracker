@@ -1,37 +1,42 @@
 'use client'
 
+import ExpenseItem from "@/components/ExpenseItem";
+import Modal from "@/components/Modal";
+import { expenses } from "@/data/dummyData";
+import { currencyFormatter } from "@/lib/utils";
 import { useState } from "react"
 
 export default function Home() {
 
-  const [isModalOpen, setIsModalOpen] = useState(true);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <>
-      <div style={{ 
-        transform: isModalOpen ? 'translateX(0%)' : 'translateX(-200%)',
+      <Modal show={isModalOpen} onClose={ setIsModalOpen} />
+    <main className='container max-w-2xl px-6 mx-auto'>
+        <section className='py-3'>
+          <small className='text-gray-400 text-md'> My Balance</small>
+          <h2 className='text-4xl font-bold'>{currencyFormatter(76543) }</h2>
+        </section>
 
-      }}
-        className='absolute top-0 left-0  w-full h-full z-10 transition-all duration-500'>
-          <div className='container mx-auto max-w-2xl h-[80vh] bg-slate-800 rounded-3xl py-6 px-4'>
-            <button className='w-10 h-10 mb-4 font-bold
-           rounded-full bg-slate-600'
-           onClick={()=>setIsModalOpen(false)}
-           >
-            X
-          </button>
-          <h3>I am a modal </h3>
-
-          </div>
-        </div>
-    <main className="">
-        Arik
-        <section>
-          <button className='btn btn-primary'
-            onClick={() => setIsModalOpen(true)}
-          >
+        <section className='py-3 flex items-center gap-2'>
+          <button className='btn btn-primary' onClick={() => setIsModalOpen(true)}>
             + Expenses
           </button>
+          <button class='btn btn-primary-outline' onClick={() => setIsModalOpen(true)}>
+            + Income
+          </button>
+        </section>
+
+
+        <section className='py-6'>
+          <h3 className='text-2xl'>My Expenses</h3>
+          {/* list */}
+          <div className='flex flex-col gap-4 mt-6'>
+            {expenses.map(ex => (
+              <ExpenseItem expense={ex} id={ex.id } />
+            ))}
+          </div>
+        
         </section>
     </main>
     </>
