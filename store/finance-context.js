@@ -12,6 +12,8 @@ export const financeContext = createContext({
     removeIncomeItem: async () => { },
     addExpenseItem: async () => { },
     addCategory: async () => { },
+    deleteExpenseItem: async () => { },
+    deleteExpenseCategory: async () => { },
 });
 
 export default function FinanceContextProvider({ children }) {
@@ -43,6 +45,20 @@ export default function FinanceContextProvider({ children }) {
         }
     }
 
+    const deleteExpenseCategory = async (expenseCategoryId) => {
+        try {
+            const docRef = doc(db, 'expenses', expenseCategoryId);
+            await deleteDoc(docRef)
+
+            setExpenses((prevExpenses) => {
+                const updatedExpenses = prevExpenses.filter((ex) => ex.id !== expenseCategoryId)
+                return [...updatedExpenses];
+            })
+        } catch (error) {
+            throw error
+        }
+    }
+
     const addExpenseItem = async (expenseCategoryId, newExpense) => {
         const docRef = doc(db, 'expenses', expenseCategoryId);
         try {
@@ -57,6 +73,27 @@ export default function FinanceContextProvider({ children }) {
                 updatedExpenses[foundIdx] = {id: expenseCategoryId, ...newExpense}
             
                 return updatedExpenses
+            })
+        } catch (error) {
+            throw error
+        }
+    }
+
+    const deleteExpenseItem = async (updatedExpense, expenseCategoryId) => {
+
+        try {
+            const docRef = doc(db, 'expenses', expenseCategoryId);
+            await updateDoc(docRef, {
+                ...updatedExpense
+            });
+
+            setExpenses(prevExpenses => {
+                const updatedExpenses = [...prevExpenses];
+                const pos = updatedExpenses.findIndex((ex)=> ex.id ===expenseCategoryId)
+                updatedExpenses[pos].items = [...updatedExpense.items]
+                updatedExpenses[pos].total = updatedExpense.total;
+
+                return updatedExpenses;
             })
         } catch (error) {
             throw error
@@ -98,7 +135,10 @@ export default function FinanceContextProvider({ children }) {
         }
     }
 
-    const values = {addCategory, addExpenseItem, expenses, income, addIncomeItem, removeIncomeItem}
+    const values = {
+        deleteExpenseItem, addCategory, addExpenseItem,deleteExpenseCategory,
+        expenses, income, addIncomeItem, removeIncomeItem
+    }
 
     useEffect(() => {
         const fetchIncome = async () => {

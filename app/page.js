@@ -5,10 +5,10 @@ import { useEffect, useContext, useState } from "react"
 import {Chart as ChartJS, ArcElement,Tooltip, Legend } from 'chart.js'
 
 import ExpenseItem from "@/components/ExpenseItem";
-import { currencyFormatter } from "@/lib/utils";
 import AddIncomeModal from "@/components/modals/AddIncomeModal";
-import { financeContext } from "@/store/finance-context";
 import AddExpensesModal from "@/components/modals/AddExpensesModal";
+import { financeContext } from "@/store/finance-context";
+import { currencyFormatter } from "@/lib/utils";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -61,8 +61,8 @@ export default function Home() {
           <h3 className='text-2xl'>My Expenses</h3>
           {/* list */}
           <div className='flex flex-col gap-4 mt-6'>
-            {expenses.map(ex => (
-              <ExpenseItem expense={ex} id={ex.id } />
+            {expenses?.map(ex => (
+              <ExpenseItem expense={ex} id={ex.id} />
             ))}
           </div>
         </section>
@@ -72,12 +72,12 @@ export default function Home() {
           <h3 className='text-2xl'>Stats</h3>
           <div className='w-1/2 mx-auto'>
             <Doughnut data={{
-              labels: expenses.map(ex => ex.title),
+              labels: expenses?.map(ex => ex.title),
               datasets: [
                 {
                   label: 'Expenses',
-                  data: expenses.map(ex => ex.total),
-                  backgroundColor: expenses.map(ex=>ex.color),
+                  data: expenses?.map(ex => ex.total),
+                  backgroundColor: expenses?.map(ex=>ex.color),
                   borderColor: ['#18181b'],
                   borderWidth: 5,
                 }
