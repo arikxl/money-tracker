@@ -4,6 +4,7 @@ import AppHeader from '@/components/AppHeader'
 import './globals.css'
 import { Inter } from 'next/font/google'
 import FinanceContextProvider from '@/store/finance-context'
+import AuthContextProvider from '@/store/auth-context'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -16,10 +17,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <FinanceContextProvider>
-          <AppHeader />
-          {children}
-        </FinanceContextProvider>
+        <AuthContextProvider>
+          <FinanceContextProvider>
+            <AppHeader />
+            {children}
+          </FinanceContextProvider>
+        </AuthContextProvider>
       </body>
     </html>
   )

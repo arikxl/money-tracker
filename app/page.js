@@ -9,6 +9,8 @@ import AddIncomeModal from "@/components/modals/AddIncomeModal";
 import AddExpensesModal from "@/components/modals/AddExpensesModal";
 import { financeContext } from "@/store/finance-context";
 import { currencyFormatter } from "@/lib/utils";
+import { authContext } from "@/store/auth-context";
+import SignIn from "@/components/signIn";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -17,7 +19,9 @@ export default function Home() {
   const [showAddIncomeModel, setShowAddIncomeModel] = useState(false);
   const [showAddExpensesModel, setShowAddExpensesModel] = useState(false);
   const [balance, setBalance] = useState(0);
-  const { expenses, income} = useContext(financeContext);
+  const { expenses, income } = useContext(financeContext);
+  const { user, loading  } = useContext(authContext);
+
 
   useEffect(() => {
 
@@ -32,6 +36,7 @@ export default function Home() {
       setBalance(newBalance)
   },[expenses, income])
   
+  if(!user) return <SignIn />
   
   return (
     <>
@@ -62,7 +67,7 @@ export default function Home() {
           {/* list */}
           <div className='flex flex-col gap-4 mt-6'>
             {expenses?.map(ex => (
-              <ExpenseItem expense={ex} id={ex.id} />
+              <ExpenseItem expense={ex} key={ex.id} />
             ))}
           </div>
         </section>
