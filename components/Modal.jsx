@@ -7,7 +7,7 @@ const Modal = ({ show , onClose, children}) => {
 
       }}
           className='absolute top-0 left-0  w-full h-full z-10 transition-all duration-500'>
-          <div className='container mx-auto max-w-2xl h-[80vh] bg-slate-800 rounded-3xl py-6 px-4'>
+          <div className='container mx-auto max-w-2xl  bg-slate-800 rounded-3xl py-6 px-4'>
               <button className='w-10 h-10 mb-4 font-bold
            rounded-full bg-slate-600'
                   onClick={() => onClose(false)}
