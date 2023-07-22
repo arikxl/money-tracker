@@ -7,12 +7,14 @@ import { db } from "@/lib/firebase";
 
 export const financeContext = createContext({
     income: [],
+    expenses: [],
     addIncomeItem: async () => { },
     removeIncomeItem: async () => { },
 });
 
 export default function FinanceContextProvider({ children }) {
     const [income, setIncome] = useState([]);
+    const [expenses, setExpenses] = useState([]);
 
     const addIncomeItem = async (newIncome) => {
       
@@ -29,8 +31,6 @@ export default function FinanceContextProvider({ children }) {
                     }
                 ]
             })
-
-
         } catch (error) {
             console.log(error.message)
             throw error
@@ -50,10 +50,9 @@ export default function FinanceContextProvider({ children }) {
             console.log(error.message)
             throw error;
         }
-
     }
 
-    const values = {income, addIncomeItem, removeIncomeItem}
+    const values = {expenses, income, addIncomeItem, removeIncomeItem}
 
     useEffect(() => {
         const fetchIncome = async () => {
@@ -68,7 +67,22 @@ export default function FinanceContextProvider({ children }) {
                 }
             })
             setIncome(data)
-        }
+        };
+
+        const fetchExpenses = async () => {
+            const collectionRef = collection(db, 'expenses');
+            const docsSnap = await getDocs(collectionRef)
+
+            const data = docsSnap.docs.map(doc => {
+                return {
+                    id: doc.id,
+                    ...doc.data(),
+                }
+            })
+            setExpenses(data)
+        };
+
+        fetchExpenses()
         fetchIncome()
     }, [])
 

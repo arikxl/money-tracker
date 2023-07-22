@@ -1,22 +1,34 @@
 'use client'
 
 import { Doughnut } from "react-chartjs-2";
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useContext, useState } from "react"
 import {Chart as ChartJS, ArcElement,Tooltip, Legend } from 'chart.js'
 
 import ExpenseItem from "@/components/ExpenseItem";
-import { expenses } from "@/data/dummyData";
 import { currencyFormatter } from "@/lib/utils";
 import AddIncomeModal from "@/components/modals/AddIncomeModal";
+import { financeContext } from "@/store/finance-context";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function Home() {
 
   const [showAddIncomeModel, setShowAddIncomeModel] = useState(false);
+  const [balance, setBalance] = useState(0);
+  const { expenses, income} = useContext(financeContext);
 
+  useEffect(() => {
 
+    const newBalance = 
+      income.reduce((total, i) => {
+        return total + i.amount;
+      }, 0) - 
+      expenses.reduce((total, e) => {
+        return total + e.total;
+      }, 0)
 
+      setBalance(newBalance)
+  },[expenses, income])
   
   
   return (
@@ -25,7 +37,7 @@ export default function Home() {
     <main className='container max-w-2xl px-6 mx-auto'>
         <section className='py-3'>
           <small className='text-gray-400 text-md'> My Balance</small>
-          <h2 className='text-4xl font-bold'>{currencyFormatter(76543) }</h2>
+          <h2 className='text-4xl font-bold'>{currencyFormatter(balance) }</h2>
         </section>
 
         <section className='py-3 flex items-center gap-2'>

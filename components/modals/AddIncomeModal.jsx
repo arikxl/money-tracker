@@ -18,7 +18,7 @@ const AddIncomeModal = ({ show, onClose }) => {
         e.preventDefault();
 
         const newIncome = {
-            amount: amountRef.current.value,
+            amount: +amountRef.current.value,
             desc: descRef.current.value,
             createdAt: new Date()
         }
