@@ -1,10 +1,15 @@
 'use client'
 
-import ExpenseItem from "@/components/ExpenseItem";
+import { useState } from "react"
+import { Doughnut } from "react-chartjs-2";
+import {Chart as ChartJS, ArcElement,Tooltip, Legend } from 'chart.js'
+
 import Modal from "@/components/Modal";
+import ExpenseItem from "@/components/ExpenseItem";
 import { expenses } from "@/data/dummyData";
 import { currencyFormatter } from "@/lib/utils";
-import { useState } from "react"
+
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function Home() {
 
@@ -36,8 +41,27 @@ export default function Home() {
               <ExpenseItem expense={ex} id={ex.id } />
             ))}
           </div>
-        
         </section>
+
+
+        <section className='py-6'>
+          <h3 className='text-2xl'>Stats</h3>
+          <div className='w-1/2 mx-auto'>
+            <Doughnut data={{
+              labels: expenses.map(ex => ex.title),
+              datasets: [
+                {
+                  label: 'Expenses',
+                  data: expenses.map(ex => ex.total),
+                  backgroundColor: expenses.map(ex=>ex.color),
+                  borderColor: ['#18181b'],
+                  borderWidth: 5,
+                }
+              ]}}
+            />
+          </div>
+        </section>
+        
     </main>
     </>
   )

@@ -3,7 +3,7 @@ import React from 'react'
 
 const ExpenseItem = ({ expense }) => {
 
-    const { color, amount, title } = expense;
+    const { color, total, title } = expense;
 
     return (
         <button>
@@ -18,7 +18,7 @@ const ExpenseItem = ({ expense }) => {
                         }} />
                     <h4 className='capitalize'>{title}</h4>
                 </div>
-                <p>{currencyFormatter(amount)}</p>
+                <p>{currencyFormatter(total)}</p>
             </div>
         </button>
     )
