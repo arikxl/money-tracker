@@ -4,7 +4,6 @@ import { addDoc, collection, getDocs, doc, deleteDoc } from "firebase/firestore"
 
 
 import Modal from "../Modal";
-import { db } from "@/lib/firebase";
 import { currencyFormatter } from '@/lib/utils';
 import { financeContext } from '@/store/finance-context';
 
@@ -27,6 +26,7 @@ const AddIncomeModal = ({ show, onClose }) => {
             await addIncomeItem(newIncome);
             descRef.current.value = '';
             amountRef.current.value = '';
+            onClose()
         } catch (error) {
             console.error(error.message);
         }

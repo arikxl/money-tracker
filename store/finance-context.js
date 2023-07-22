@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, useEffect, useState } from "react";
-import { addDoc, collection, getDocs, doc, deleteDoc } from "firebase/firestore";
+import { addDoc, collection, getDocs, doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 
 
@@ -10,11 +10,58 @@ export const financeContext = createContext({
     expenses: [],
     addIncomeItem: async () => { },
     removeIncomeItem: async () => { },
+    addExpenseItem: async () => { },
+    addCategory: async () => { },
 });
 
 export default function FinanceContextProvider({ children }) {
     const [income, setIncome] = useState([]);
     const [expenses, setExpenses] = useState([]);
+
+    const addCategory = async (category) => {
+        try {
+            const collectionRef = collection(db, 'expenses');
+
+            const docSnap = await addDoc(collectionRef, {
+                ...category,
+                items: [],
+            })
+
+            setExpenses((prevExpenses) => {
+                return [
+                    ...prevExpenses,
+                    {
+                        id: docSnap.id,
+                        items: [],
+                        ...category
+                    }
+                ]
+            })
+
+        } catch (error) {
+            throw error
+        }
+    }
+
+    const addExpenseItem = async (expenseCategoryId, newExpense) => {
+        const docRef = doc(db, 'expenses', expenseCategoryId);
+        try {
+            await updateDoc(docRef, { ...newExpense });
+
+            setExpenses((prevState) => {
+                const updatedExpenses = [...prevState];
+
+                const foundIdx = updatedExpenses.findIndex((ex) => {
+                    return ex.id === expenseCategoryId
+                })
+                updatedExpenses[foundIdx] = {id: expenseCategoryId, ...newExpense}
+            
+                return updatedExpenses
+            })
+        } catch (error) {
+            throw error
+        }
+    }
 
     const addIncomeItem = async (newIncome) => {
       
@@ -37,7 +84,6 @@ export default function FinanceContextProvider({ children }) {
         }
     };
 
-
     const removeIncomeItem = async (id) => {
         const docRef = doc(db, 'income', id);
         try {
@@ -52,7 +98,7 @@ export default function FinanceContextProvider({ children }) {
         }
     }
 
-    const values = {expenses, income, addIncomeItem, removeIncomeItem}
+    const values = {addCategory, addExpenseItem, expenses, income, addIncomeItem, removeIncomeItem}
 
     useEffect(() => {
         const fetchIncome = async () => {
