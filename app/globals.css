@@ -3,6 +3,11 @@
 @tailwind utilities;
 
 @layer base {
+
+  html{
+    scroll-behavior: smooth;
+  }
+
   body{
     @apply bg-slate-900 text-white relative
   }

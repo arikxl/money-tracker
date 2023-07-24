@@ -1,9 +1,8 @@
-
-import { authContext } from '@/store/auth-context';
 import Image from 'next/image'
 import { useContext } from 'react';
 import { ImStatsBars } from 'react-icons/im';
 
+import { authContext } from '@/store/auth-context';
 
 const AppHeader = () => {
 
@@ -26,7 +25,9 @@ const AppHeader = () => {
             {user && !loading && (
                 <nav className='flex items-center gap-4'>
                     <div>
+                        <a href='#stats'>
                         <ImStatsBars className='text-2xl' />
+                        </a>
                     </div>
                     <div>
                         <button onClick={logout} className='btn btn-danger'>Sign Out</button>

@@ -1,15 +1,14 @@
-import { currencyFormatter } from '@/lib/utils';
+import { toast } from 'react-toastify';
+import { useContext } from 'react';
 import { FaRegTrashAlt } from 'react-icons/fa'
 
 import Modal from '../Modal'
-import { expenses } from '@/data/dummyData';
-import { useContext } from 'react';
 import { financeContext } from '@/store/finance-context';
-import { toast } from 'react-toastify';
+import { currencyFormatter } from '@/lib/utils';
 
 const ViewExpenseModal = ({ show, onClose, expense }) => {
     if (!expense) onClose();
-    const { color, total, title } = expense;
+    const { color, title } = expense;
 
     const { deleteExpenseItem, deleteExpenseCategory } = useContext(financeContext);
 
@@ -55,6 +54,7 @@ const ViewExpenseModal = ({ show, onClose, expense }) => {
 
             <div>
                 <h3 className='my-4 text-2xl '>Expense History</h3>
+                {!expense.items || expense.items.length < 1 && (<h2>No {expense.title } expenses yet</h2>)}
                 {expense.items.map((item) => (
                     <div key={item.id} className='flex items-center justify-between'>
                         <small>

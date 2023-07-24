@@ -4,14 +4,13 @@ import { Doughnut } from "react-chartjs-2";
 import { useEffect, useContext, useState } from "react"
 import {Chart as ChartJS, ArcElement,Tooltip, Legend } from 'chart.js'
 
+import SignIn from "@/components/signIn";
 import ExpenseItem from "@/components/ExpenseItem";
 import AddIncomeModal from "@/components/modals/AddIncomeModal";
 import AddExpensesModal from "@/components/modals/AddExpensesModal";
+import { authContext } from "@/store/auth-context";
 import { financeContext } from "@/store/finance-context";
 import { currencyFormatter } from "@/lib/utils";
-import { authContext } from "@/store/auth-context";
-import SignIn from "@/components/signIn";
-import Head from "next/head";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -38,15 +37,13 @@ export default function Home() {
   },[expenses, income])
   
   if(!user) return <SignIn />
-  
+  if(loading) return ('Loading...')
   return (
     <>
-    <Head>
-      <link rel="shortcut icon" href="https://icons8.com/icon/KGhSnVZPf0Vl/money-with-wings" />
-    </Head>
+
       <AddIncomeModal  show={showAddIncomeModel} onClose={setShowAddIncomeModel } />
       <AddExpensesModal  show={showAddExpensesModel} onClose={setShowAddExpensesModel } />
-    <main className='container max-w-2xl px-6 mx-auto'>
+      <main className='container max-w-2xl px-6 mx-auto'>
         <section className='py-3'>
           <small className='text-gray-400 text-md'> My Balance</small>
           <h2 className='text-4xl font-bold'>{currencyFormatter(balance) }</h2>
@@ -67,17 +64,23 @@ export default function Home() {
 
 
         <section className='py-6'>
-          <h3 className='text-2xl'>My Expenses</h3>
-          {/* list */}
-          <div className='flex flex-col gap-4 mt-6'>
-            {expenses?.map(ex => (
-              <ExpenseItem expense={ex} key={ex.id} />
-            ))}
-          </div>
+          {!expenses || expenses.length < 1
+            ? (<h2>You dont have expenses yet.</h2>)
+            : (
+            <>
+              <h3 className='text-2xl'>My Expenses</h3>
+             <div className='flex flex-col gap-4 mt-6'>
+              {expenses?.map(ex => (
+                <ExpenseItem expense={ex} key={ex.id} />
+              ))}
+              </div>
+            </>
+           )}
         </section>
 
-
-        <section className='py-6'>
+        {expenses && expenses.length > 0 && (
+          
+          <section className='py-6' id="stats">
           <h3 className='text-2xl'>Stats</h3>
           <div className='w-1/2 mx-auto'>
             <Doughnut data={{
@@ -91,9 +94,10 @@ export default function Home() {
                   borderWidth: 5,
                 }
               ]}}
-            />
+              />
           </div>
         </section>
+              )}
         
     </main>
     </>

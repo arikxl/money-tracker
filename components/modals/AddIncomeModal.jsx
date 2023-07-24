@@ -1,19 +1,18 @@
+import { toast } from 'react-toastify';
 import { FaRegTrashAlt } from 'react-icons/fa'
-import { useEffect, useRef, useState, useContext } from "react"
-import { addDoc, collection, getDocs, doc, deleteDoc } from "firebase/firestore";
-
+import {  useRef, useContext } from "react"
 
 import Modal from "../Modal";
-import { currencyFormatter } from '@/lib/utils';
-import { financeContext } from '@/store/finance-context';
 import { authContext } from '@/store/auth-context';
-import { toast } from 'react-toastify';
+import { financeContext } from '@/store/finance-context';
+import { currencyFormatter } from '@/lib/utils';
+
 const AddIncomeModal = ({ show, onClose }) => {
 
-    const amountRef = useRef();
     const descRef = useRef();
-    const { income, addIncomeItem, removeIncomeItem } = useContext(financeContext);
+    const amountRef = useRef();
     const { user } = useContext(authContext);
+    const { income, addIncomeItem, removeIncomeItem } = useContext(financeContext);
 
     const AddIncomeHandler = async (e) => {
         e.preventDefault();
@@ -48,8 +47,6 @@ const AddIncomeModal = ({ show, onClose }) => {
         }
     }
 
-
-
     return (
       <Modal show={show} onClose={onClose} >
           <form className='gap-5 flex flex-col' onSubmit={AddIncomeHandler}>
@@ -69,7 +66,8 @@ const AddIncomeModal = ({ show, onClose }) => {
           </form>
 
           <div className=' flex flex-col gap-4 mt-6'>
-              <h3 className='text-2xl font-bold'>Income History</h3>
+                <h3 className='text-2xl font-bold'>Income History</h3>
+                {!income || income.length <1 && (<h2>No income yet.</h2>)}
               {
                   income && income.map(item => (
                       <div key={item.id} className='flex items-center justify-between'>

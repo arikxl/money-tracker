@@ -1,6 +1,7 @@
-import { currencyFormatter } from '@/lib/utils'
-import React, { useState } from 'react'
+import { useState } from 'react'
+
 import ViewExpenseModal from './modals/ViewExpenseModal';
+import { currencyFormatter } from '@/lib/utils'
 
 const ExpenseItem = ({ expense }) => {
 

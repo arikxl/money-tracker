@@ -1,9 +1,9 @@
-import React, { useContext, useRef, useState } from 'react'
+import { toast } from 'react-toastify';
+import { v4 as uuidv4 } from 'uuid'
+import { useContext, useRef, useState } from 'react';
+
 import Modal from '../Modal'
 import { financeContext } from '@/store/finance-context';
-
-import { v4 as uuidv4 } from 'uuid'
-import { toast } from 'react-toastify';
 
 const AddExpensesModal = ({ show, onClose }) => {
 
@@ -108,11 +108,11 @@ const AddExpensesModal = ({ show, onClose }) => {
                         <button key={ex.id}
                             onClick={() => setSelectedCategory(ex.id)}
                         >
-
                             <div style={{
                                 boxShadow: ex.id === selectedCategory ? '1px 1px 4px' : 'none'
                             }}
-                                className='flex items-center justify-between px-4 py-4 bg-slate-700 rounded-3xl'>
+                                className='flex items-center justify-between px-4 py-4
+                                 bg-slate-700 rounded-3xl'>
                                 <div className='flex items-center gap-2'>
 
                                     <div className='rounded-full w-[25px] h-[25px]'
@@ -139,8 +139,6 @@ const AddExpensesModal = ({ show, onClose }) => {
                     </div>
                 )
             }
-
-
         </Modal>
     )
 }
