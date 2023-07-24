@@ -5,8 +5,11 @@ import './globals.css'
 import { Inter } from 'next/font/google'
 import FinanceContextProvider from '@/store/finance-context'
 import AuthContextProvider from '@/store/auth-context'
+  import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const inter = Inter({ subsets: ['latin'] })
+
 
 export const metadata = {
   title: 'Create Next App',
@@ -19,6 +22,7 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <AuthContextProvider>
           <FinanceContextProvider>
+            <ToastContainer/>
             <AppHeader />
             {children}
           </FinanceContextProvider>

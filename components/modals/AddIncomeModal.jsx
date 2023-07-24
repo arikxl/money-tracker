@@ -7,6 +7,7 @@ import Modal from "../Modal";
 import { currencyFormatter } from '@/lib/utils';
 import { financeContext } from '@/store/finance-context';
 import { authContext } from '@/store/auth-context';
+import { toast } from 'react-toastify';
 const AddIncomeModal = ({ show, onClose }) => {
 
     const amountRef = useRef();
@@ -28,18 +29,22 @@ const AddIncomeModal = ({ show, onClose }) => {
             await addIncomeItem(newIncome);
             descRef.current.value = '';
             amountRef.current.value = '';
-            onClose()
+            onClose();
+            toast.success('Income Added!')
         } catch (error) {
             console.error(error.message);
+            toast.error(error.message);
         }
 
     };
 
     const deleteIncome = async (id) => {
         try {
-            await removeIncomeItem(id)
+            await removeIncomeItem(id);
+            toast.success('Income Deleted!')
         } catch (error) {
-            console.log(error.message)
+            console.log(error.message);
+            toast.error(error.message);
         }
     }
 
