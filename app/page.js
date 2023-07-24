@@ -4,13 +4,13 @@ import { Doughnut } from "react-chartjs-2";
 import { useEffect, useContext, useState } from "react"
 import {Chart as ChartJS, ArcElement,Tooltip, Legend } from 'chart.js'
 
-import SignIn from "@/components/signIn";
 import ExpenseItem from "@/components/ExpenseItem";
 import AddIncomeModal from "@/components/modals/AddIncomeModal";
 import AddExpensesModal from "@/components/modals/AddExpensesModal";
 import { authContext } from "@/store/auth-context";
 import { financeContext } from "@/store/finance-context";
 import { currencyFormatter } from "@/lib/utils";
+import SignIn from "@/components/SignIn";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
