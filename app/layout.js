@@ -1,5 +1,6 @@
+'use client'
 
-import { Inter } from 'next/font/google'
+// import { Inter } from 'next/font/google'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -8,7 +9,7 @@ import AppHeader from '@/components/AppHeader'
 import AuthContextProvider from '@/store/auth-context'
 import FinanceContextProvider from '@/store/finance-context'
 
-const inter = Inter({ subsets: ['latin'] })
+// const inter = Inter({ subsets: ['latin'] })
 
 const metadata = {
   title: 'Finance Tracker',
@@ -18,7 +19,7 @@ const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body >
         <AuthContextProvider>
           <FinanceContextProvider>
             <ToastContainer/>
