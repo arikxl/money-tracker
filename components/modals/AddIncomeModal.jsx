@@ -6,12 +6,13 @@ import { addDoc, collection, getDocs, doc, deleteDoc } from "firebase/firestore"
 import Modal from "../Modal";
 import { currencyFormatter } from '@/lib/utils';
 import { financeContext } from '@/store/finance-context';
-
+import { authContext } from '@/store/auth-context';
 const AddIncomeModal = ({ show, onClose }) => {
 
     const amountRef = useRef();
     const descRef = useRef();
-    const {income, addIncomeItem, removeIncomeItem} = useContext(financeContext);
+    const { income, addIncomeItem, removeIncomeItem } = useContext(financeContext);
+    const { user } = useContext(authContext);
 
     const AddIncomeHandler = async (e) => {
         e.preventDefault();
@@ -19,7 +20,8 @@ const AddIncomeModal = ({ show, onClose }) => {
         const newIncome = {
             amount: +amountRef.current.value,
             desc: descRef.current.value,
-            createdAt: new Date()
+            createdAt: new Date(),
+            uid: user.uid
         }
 
         try {

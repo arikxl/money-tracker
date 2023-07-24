@@ -11,6 +11,7 @@ import { financeContext } from "@/store/finance-context";
 import { currencyFormatter } from "@/lib/utils";
 import { authContext } from "@/store/auth-context";
 import SignIn from "@/components/signIn";
+import Head from "next/head";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -40,6 +41,9 @@ export default function Home() {
   
   return (
     <>
+    <Head>
+      <link rel="shortcut icon" href="https://icons8.com/icon/KGhSnVZPf0Vl/money-with-wings" />
+    </Head>
       <AddIncomeModal  show={showAddIncomeModel} onClose={setShowAddIncomeModel } />
       <AddExpensesModal  show={showAddExpensesModel} onClose={setShowAddExpensesModel } />
     <main className='container max-w-2xl px-6 mx-auto'>
