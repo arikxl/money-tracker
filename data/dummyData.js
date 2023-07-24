@@ -1,6 +1,12 @@
 export const expenses = [
 
             {
+                id: 1000,
+                title: 'Test',
+                color: 'black',
+                total: 2,
+            },
+            {
                 id: 1001,
                 title: 'Entertainment',
                 color: 'lime',
