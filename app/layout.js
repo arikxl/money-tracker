@@ -11,7 +11,7 @@ import FinanceContextProvider from '@/store/finance-context'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export const metadata = {
+const metadata = {
   title: 'Finance Tracker',
   description: 'Arik Alexandrov ',
 }
